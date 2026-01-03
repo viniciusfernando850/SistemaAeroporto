@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class Style {
+public class StyleLogin {
     private static Color azulPrussia = new Color(0, 7, 45);
     private static Color azulImperial = new Color(10, 36, 114);
     private static Color brancoNeve = new Color(249, 249, 249);
@@ -30,13 +30,27 @@ public class Style {
         botao.setForeground(brancoNeve);
         botao.setFocusPainted(false);
         botao.setBorderPainted(false);
+        botao.setContentAreaFilled(false);
         botao.setOpaque(true);
     }
 
-    public static void designBackground(JPanel painel) {
+    public static void designBotaoPressionado(JButton botao) {
+        botao.setPreferredSize(new Dimension(120, 32));
+        botao.setBackground(azulPrussia);
+        botao.setForeground(brancoNeve);
+        botao.setFocusPainted(false);
+        botao.setBorderPainted(false);
+        botao.setOpaque(true);
+    }
+
+    public static void designLateral(JPanel painel) {
         painel.setBackground(brancoNeve);
         painel.setBorder(new EmptyBorder(20, 10, 20, 10));
         painel.setPreferredSize(new Dimension(330, 500));
 
+    }
+
+    public static void desingBackground(JPanel background) {
+        background.setPreferredSize(new Dimension(800, 500));
     }
 }

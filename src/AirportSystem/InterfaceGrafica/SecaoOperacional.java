@@ -1,4 +1,6 @@
 package AirportSystem.InterfaceGrafica;
 
-public class SecaoOperacional {
+import javax.swing.*;
+
+public class SecaoOperacional extends JPanel {
 }
