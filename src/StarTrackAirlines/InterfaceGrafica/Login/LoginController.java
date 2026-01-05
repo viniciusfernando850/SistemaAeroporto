@@ -12,11 +12,14 @@ public class LoginController {
         this.autenticacao = autenticacao;
     }
 
-    public void realizarLogin(String usuario, char[] senha) {
+    public void realizarLogin(String usuario, char[] senha, String tela) {
         boolean aprovado = autenticacao.validarLogin(usuario, senha);
 
         if (aprovado)
-            window.showVendas("vendas");
+            if (tela.equals("vendas"))
+                window.showVendas(tela);
+            else if (tela.equals("operacional"))
+                window.showOperacional(tela);
         else
             System.out.println("ERRO");
     }

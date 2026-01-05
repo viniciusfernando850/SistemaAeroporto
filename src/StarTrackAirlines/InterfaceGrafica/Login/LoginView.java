@@ -94,7 +94,12 @@ public class LoginView extends JPanel {
         botaoEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.realizarLogin(usuario.getText(), senha.getPassword());
+                String opcaoSelecionada = (String) seletor.getSelectedItem();
+
+                if (opcaoSelecionada.equals("Seção de Vendas"))
+                    controller.realizarLogin(usuario.getText(), senha.getPassword(), "vendas");
+                else if (opcaoSelecionada.equals("Seção Administrativa"))
+                    controller.realizarLogin(usuario.getText(), senha.getPassword(), "operacional");
             }
         });
 
