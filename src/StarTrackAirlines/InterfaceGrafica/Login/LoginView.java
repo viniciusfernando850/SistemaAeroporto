@@ -1,29 +1,27 @@
-package AirportSystem.InterfaceGrafica.Login;
+package StarTrackAirlines.InterfaceGrafica.Login;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class LoginView extends JPanel {
-    private JTextField usuario;
-    private JPasswordField senha;
-    private JComboBox<String> seletor;
-    private JButton botaoEntrar;
-    private final LoginController controller;
+    private final JTextField usuario;
+    private final JPasswordField senha;
+    private final JButton botaoEntrar;
 
-    public LoginView(LoginController loginController) {
-        this.controller = loginController;
+    public LoginView() {
+        this.usuario = new JTextField();
+        this.senha = new JPasswordField();
+        this.botaoEntrar = new JButton("Login");
 
-        inicializarComponentes();
         configurarLayout();
-        configurarEventos();
     }
 
-    public void configurarLayout() {
+    private void configurarLayout() {
         setLayout(new BorderLayout());
 
         JPanel background =
-                new PainelBackGround("/AirportSystem/InterfaceGrafica/Images/background-login.jpg");
+                new PainelBackGround("/StarTrackAirlines/InterfaceGrafica/Images/background-login.jpg");
         background.setLayout(new BorderLayout());
         StyleLogin.desingBackground(background);
 
@@ -31,24 +29,33 @@ public class LoginView extends JPanel {
         StyleLogin.designLateral(painel);
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(20, 5, 20, 5);
+        JLabel usuarioLabel = new JLabel("Usuário");
+        JLabel senhaLabel = new JLabel("Senha");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.insets = new Insets(0, 5, 0, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        painel.add(usuarioLabel, gbc);
+
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 5, 15, 5);
         StyleLogin.designCampo(this.usuario);
         painel.add(this.usuario, gbc);
 
-        gbc.gridy = 1;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(15, 5, 0, 5);
+        painel.add(senhaLabel, gbc);
+
+        gbc.gridy = 3;
+        gbc.insets = new Insets(0, 5, 20, 5);
         StyleLogin.designCampo(this.senha);
         painel.add(this.senha, gbc);
 
-        gbc.gridy = 2;
-        StyleLogin.designSeletor(this.seletor);
-        painel.add(this.seletor, gbc);
-
+        gbc.gridy = 4;
         gbc.insets = new Insets(30, 5, 15, 5);
-        gbc.gridy = 3;
-        StyleLogin.designBotao(this.botaoEntrar);
+        gbc.anchor = GridBagConstraints.CENTER;
+        StyleLogin.designBotao(this.botaoEntrar, 120, 32);
         painel.add(this.botaoEntrar, gbc);
 
         background.add(painel, BorderLayout.WEST);
@@ -56,100 +63,60 @@ public class LoginView extends JPanel {
         add(background, BorderLayout.CENTER);
     }
 
-    private void inicializarComponentes() {
-        gerarBotao();
-        gerarCampos();
-        gerarSeletor();
-    }
+    public void configurarMensagemErro(JFrame mainWindow) {
+        JDialog dialogWindow = new JDialog(mainWindow, "Acesso Negado", true);
+        dialogWindow.setLayout(new BorderLayout());
 
-    private void gerarBotao() {
-        this.botaoEntrar = new JButton("Login");
-    }
+        Image icone = new ImageIcon(getClass().getResource(
+                "/StarTrackAirlines/InterfaceGrafica/Images/atencao.png")).getImage();
+        dialogWindow.setIconImage(icone);
 
-    private void gerarCampos() {
-        this.usuario = new JTextField("Usuário");
-        this.senha = new JPasswordField();
-        senha.setText("Senha");
-        this.senha.setEchoChar((char) 0);
-    }
+        JLabel mensagemErro = new JLabel("Usuário e/ou senha inválidos!");
 
-    private void gerarSeletor() {
-        this.seletor = new JComboBox<>();
+        JButton ok = new JButton("Ok");
 
-        seletor.addItem("-- Selecione uma opção --");
-        seletor.addItem("Seção de Vendas");
-        seletor.addItem("Seção de Check-in");
-        seletor.addItem("Seção Administrativa");
-    }
-
-    private void configurarEventos() {
-        setFocusable(true);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                requestFocusInWindow();
-            }
-        });
-
-        botaoEntrar.addActionListener(new ActionListener() {
+        ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String opcaoSelecionada = (String) seletor.getSelectedItem();
-
-                if (opcaoSelecionada.equals("Seção de Vendas"))
-                    controller.realizarLogin(usuario.getText(), senha.getPassword(), "vendas");
-                else if (opcaoSelecionada.equals("Seção Administrativa"))
-                    controller.realizarLogin(usuario.getText(), senha.getPassword(), "operacional");
+                dialogWindow.dispose();
             }
         });
-
-        botaoEntrar.addMouseListener(new MouseAdapter() {
+        ok.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                StyleLogin.designBotaoPressionado(botaoEntrar);
+                StyleLogin.designBotaoPressionado(ok, 60, 28);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                StyleLogin.designBotao(botaoEntrar);
+                StyleLogin.designBotao(ok, 60, 28);
             }
         });
 
-        usuario.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (usuario.getText().equals("Usuário"))
-                    usuario.setText("");
-            }
+        JPanel painel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (usuario.getText().isEmpty())
-                    usuario.setText("Usuário");
-            }
-        });
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(30, 50, 30, 50);
+        gbc.anchor = GridBagConstraints.CENTER;
+        painel.add(mensagemErro, gbc);
 
-        senha.addFocusListener(new FocusListener() {
-            boolean senhaPlaceHolder = true;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 50, 30, 50);
+        StyleLogin.designBotao(ok, 60, 28);
+        painel.add(ok, gbc);
 
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (senhaPlaceHolder) {
-                    senha.setText("");
-                    senha.setEchoChar('*');
-                    senhaPlaceHolder = false;
-                }
-            }
+        StyleLogin.designMensagemErro(dialogWindow, mensagemErro, painel);
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (senha.getPassword().length == 0) {
-                    senha.setText("Senha");
-                    senha.setEchoChar((char) 0);
-                    senhaPlaceHolder = true;
-                }
-            }
-        });
+        dialogWindow.add(painel);
+        dialogWindow.pack();
+        dialogWindow.setLocationRelativeTo(this);
+        dialogWindow.setVisible(true);
     }
+
+    public JTextField getUsuario() {return this.usuario;}
+    public JPasswordField getSenha() {return this.senha;}
+    public JButton getBotaoEntrar() {return this.botaoEntrar;}
 
 }

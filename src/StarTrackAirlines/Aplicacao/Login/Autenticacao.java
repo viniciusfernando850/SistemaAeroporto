@@ -1,11 +1,10 @@
-package AirportSystem.Aplicacao.Login;
+package StarTrackAirlines.Aplicacao.Login;
 
-import AirportSystem.ManipulacaoArquivos.FuncionariosRepository;
+import StarTrackAirlines.Aplicacao.Login.Exceptions.DadosInvalidosException;
+import StarTrackAirlines.Aplicacao.ManipulacaoArquivos.FuncionariosRepository;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.util.Arrays;
 
 public class Autenticacao {
     private final FuncionariosRepository repository;
@@ -14,28 +13,17 @@ public class Autenticacao {
         this.repository = new FuncionariosRepository();
     }
 
-    public boolean validarLogin(String usuario, char[] senha) {
-        Path caminho = Paths.get("BaseArquivos/funcionarios.csv");
-        boolean aprovado = false;
+    public Funcionario validarLogin(String usuario, char[] senha) throws DadosInvalidosException, IOException {
 
-        try {
-            List<String> linhas = repository.carregar(caminho);
-            String password = new String(senha);
+        if (usuario.isEmpty() || senha.length == 0) {
+            throw new DadosInvalidosException("Usuário e/ou senha inválidos!");
+        } else {
+            Funcionario funcionario = repository.carregarDados(usuario);
 
-            for (String linha : linhas) {
-                String[] dados = linha.split(";");
+            if (funcionario == null || !Arrays.equals(funcionario.getSenha(), senha))
+                throw new DadosInvalidosException("Usuário e/ou senha inválidos!");
 
-                if (dados[2].equals(usuario) && dados[3].equals(password)) {
-                    aprovado = true;
-                    break;
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            return funcionario;
         }
-
-        return aprovado;
     }
-
 }

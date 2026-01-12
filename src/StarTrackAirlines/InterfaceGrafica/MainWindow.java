@@ -1,4 +1,4 @@
-package AirportSystem.InterfaceGrafica;
+package StarTrackAirlines.InterfaceGrafica;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +9,12 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         configurarJanela();
-
         requestFocusInWindow();
     }
 
     public void configurarJanela() {
         Image icon = new ImageIcon(getClass().getResource(
-                "/AirportSystem/InterfaceGrafica/Images/airplane_1.png")).getImage();
+                "/StarTrackAirlines/InterfaceGrafica/Images/airplane_1.png")).getImage();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Star Track Airport System");
@@ -28,20 +27,23 @@ public class MainWindow extends JFrame {
         contentPainel.add(view, tela);
     }
 
-    public void showLogin(String tela) {
+    public void abrirLogin(String tela) {
         cardLayout.show(contentPainel, tela);
         setSize(800, 500);
         setLocationRelativeTo(null);
         setResizable(false);
     }
 
-    public void showOperacional(String tela) {}
+    public void abrirOperacional(String tela) {}
 
-    public void showVendas(String tela) {
+    public void abrirVendas(String tela) {
         cardLayout.show(contentPainel, tela);
         setPreferredSize(new Dimension(1000, 800));
         setLocationRelativeTo(null);
         setResizable(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
+
+    public void abrirCheckin(String tela) {}
+
 }
